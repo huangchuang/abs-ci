@@ -1,0 +1,22 @@
+# escape=`
+
+# This Dockerfile works well on both Windows 11 and Windows Server 2022
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
+
+WORKDIR C:\TEMP
+
+# Restore the default Windows shell for correct batch processing.
+SHELL ["cmd", "/S", "/C"]
+COPY Install.cmd C:\TEMP\
+COPY VS2022.vsconfig C:\TEMP\VS2022.vsconfig
+COPY vs_buildtools.17.14.20.exe C:\TEMP\vs_buildtools.exe
+COPY vscollect.exe C:\TEMP\vscollect.exe
+
+RUN `
+    (call C:\TEMP\Install.cmd vs_buildtools.exe --quiet --wait --norestart --nocache install `
+        --config C:\TEMP\VS2022.vsconfig `
+        --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools") `
+    && del /q vs_buildtools.exe
+
+# This entry point starts the developer command prompt and launches the PowerShell shell.
+ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]

@@ -1,0 +1,7 @@
+FROM ltsc2022:vs2022
+
+# # Install Rust
+ENV PATH="C:\\Users\\ContainerAdministrator\\.cargo\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Users\\ContainerAdministrator\\AppData\\Local\\Microsoft\\WindowsApps"
+RUN Invoke-WebRequest -UseBasicParsing -Uri https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe -OutFile rustup-init.exe
+RUN Invoke-Command -ScriptBlock {.\rustup-init.exe -q -y --no-modify-path}
+RUN Invoke-Command -ScriptBlock {rustup target add x86_64-pc-windows-msvc}

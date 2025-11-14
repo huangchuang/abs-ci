@@ -1,0 +1,34 @@
+# escape=`
+
+# This Dockerfile works well on both Windows 11 but fails on Windows Server 2022 with error below.
+# hcsshim::ImportLayer failed in Win32: The system cannot find the path specified. (0x3) on Docker Desktop for Windows
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
+
+SHELL ["powershell"]
+RUN mkdir C:\logs
+RUN mkdir C:\temp
+COPY VS2022.vsconfig C:\TEMP\VS2022.vsconfig
+COPY vs_buildtools.17.14.20.exe C:\TEMP\vs_buildtools.exe
+
+# Install Visual Studio Desktop C++ Deveopment environment.
+RUN Powershell -Command " { `
+   $ProgressPreference = 'SilentlyContinue'; `
+   $InformationPreference = 'SilentlyContinue'; `
+   Unblock-File -Path C:\\temp\\vs_BuildTools.exe; `
+   $process = Start-Process -FilePath C:\\temp\\vs_buildtools.exe  -ArgumentList '--quiet --wait --norestart install --config C:\\Temp\\.vsconfig --includeRecommended' -PassThru; `
+   Write-Host "Visual Studio Build Tools installation started."; `
+   $process.WaitForExit(); `
+   Write-Output $process.ExitCode; `
+   if (($process.ExitCode -eq 0) -or ($process.ExitCode -eq 3010)) { `
+      Write-Host "Visual Studio Build Tools installed successfully."; `
+      exit 0; `
+   } else { `
+      Write-Error "Visual Studio Build Tools installation failed with exit code $($process.ExitCode)"; `
+      Copy-Item -Path "${env:TEMP}\\dd_*.log" -Destination "C:\\logs\\"; `
+      exit $process.ExitCode; `
+   } `
+}"
+
+# This entry point starts the developer command prompt and launches the PowerShell shell.
+ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
+CMD ["Powershell"]
