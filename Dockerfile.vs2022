@@ -4,19 +4,45 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 WORKDIR C:\TEMP
+# Shorten TEMP/TMP to reduce path depth issues
+ENV TEMP=C:\TEMP
+ENV TMP=C:\TEMP
 
 # Restore the default Windows shell for correct batch processing.
 SHELL ["cmd", "/S", "/C"]
-COPY Install.cmd C:\TEMP\
 COPY VS2022.vsconfig C:\TEMP\VS2022.vsconfig
-COPY vs_buildtools.17.14.20.exe C:\TEMP\vs_buildtools.exe
-COPY vscollect.exe C:\TEMP\vscollect.exe
+COPY parse_args.ps1 C:\TEMP\parse_args.ps1
+COPY install.ps1 C:\TEMP\install.ps1
 
-RUN `
-    (call C:\TEMP\Install.cmd vs_buildtools.exe --quiet --wait --norestart --nocache install `
-        --config C:\TEMP\VS2022.vsconfig `
-        --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools") `
-    && del /q vs_buildtools.exe
+RUN curl.exe -fSL "https://aka.ms/vs/17/release/vs_buildtools.exe" -o vs_buildtools.exe
+
+# Install Visual Studio Desktop C++ Deveopment environment.
+RUN Powershell -File C:\Temp\parse_args.ps1 arg1 "argument with spaces" 123
+
+RUN Powershell -Command "& {`
+    C:\Temp\parse_args.ps1 arg9 \"argument with spaces\" 999 `
+}"
+
+# RUN Powershell -Command "& { `
+#    # $ProgressPreference = 'SilentlyContinue'; `
+#    # $InformationPreference = 'SilentlyContinue'; `
+#    # Unblock-File -Path C:\temp\vs_BuildTools.exe; `
+#    $args = @('-File', 'C:\temp\parse_args.ps1', '--passive', '--wait', '--norestart', '--nocache', 'install', '--config', 'C:\\Temp\\VS2022.vsconfig', '--installPath', '\"%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools\"'); `
+#    $process = Start-Process -File Powershell.exe -ArgumentList $args -Wait -NoNewWindow -PassThru; `
+#    Write-Host "Visual Studio Build Tools installation started."; `
+#    $process.WaitForExit(); `
+#    Write-Output $process.ExitCode; `
+#    if (($process.ExitCode -eq 0) -or ($process.ExitCode -eq 3010)) { `
+#       Write-Host "Visual Studio Build Tools installed successfully."; `
+#       exit 0; `
+#    } else { `
+#       Write-Error "Visual Studio Build Tools installation failed with exit code $($process.ExitCode)"; `
+#       Copy-Item -Path "${env:TEMP}\\dd_*.log" -Destination "C:\\logs\\"; `
+#       exit $process.ExitCode; `
+#    } `
+# }"
+
+RUN PowerShell -FilePath C:\Temp\install.ps1
 
 # This entry point starts the developer command prompt and launches the PowerShell shell.
-ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
+CMD ["Powershell"]
