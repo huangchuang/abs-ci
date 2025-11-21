@@ -1,0 +1,28 @@
+# escape=`
+
+# --- Stage 1: Install SQL Server ---
+FROM ltsc2022:vs2022 AS installer
+
+WORKDIR C:\TEMP
+ENV TEMP=C:\TEMP
+ENV TMP=C:\TEMP
+SHELL ["cmd", "/S", "/C"]
+
+# Copy the installer files into this stage
+COPY SQL2022/ C:\TEMP\SQL2022\
+
+# Install SQL Server 2022 for AB Suite 10.0
+RUN C:\TEMP\SQL2022\setup.exe /ConfigurationFile=C:\TEMP\SQL2022\SQL2022.ini /IAcceptSQLServerLicenseTerms
+
+# --- Stage 2: Final Image ---
+# Use the result of the installer stage as the base for the final image.
+# This brings along all the installed files and registry changes, but
+# Docker can now flatten the layers, effectively removing the installer files
+# that were in the C:\TEMP directory.
+FROM installer
+
+# Re-set the WORKDIR and other environment variables if needed, as they are not inherited.
+
+# This entry point starts the developer command prompt and launches the PowerShell shell.
+ENTRYPOINT ["cmd", "/S", "/C", "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat && powershell.exe -NoLogo -ExecutionPolicy Bypass"]
+CMD ["Powershell"]
