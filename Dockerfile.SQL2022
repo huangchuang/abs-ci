@@ -1,0 +1,8 @@
+# escape=`
+FROM ltsc2025:vs22
+
+# Install SQL Server 2022
+COPY SQL2022/    C:\TEMP\SQL2022\
+RUN C:\TEMP\SQL2022\setup.exe /ConfigurationFile=C:\Software\SQL2022.ini /IAcceptSQLServerLicenseTerms
+
+RUN PowerShell -Command { Remove-Item -Recurse -Force C:\TEMP\*; }
