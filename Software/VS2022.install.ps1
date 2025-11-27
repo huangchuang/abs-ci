@@ -11,7 +11,7 @@ $process = Start-Process -FilePath $vs_buildtools_installer -ArgumentList $args 
 $process.WaitForExit();
 if (0 -eq $process.ExitCode) {
     Write-Output "Visual Studio Build Tools installation succeeded with exit code $($process.ExitCode).";
-    Remove-Item -Recurse -Force "${env:TEMP}\\*"
+    Remove-Item -Recurse -Force "${env:TEMP}\\*.log"
 } else {
     Get-ChildItem -Path "${env:TEMP}\\dd_bootstrapper_*.log" | ForEach-Object {
         Write-Host "--- Log file: $($_.FullName) ---";

@@ -1,19 +1,6 @@
 # escape=`
-
-# --- Stage 1: Install SQL Server ---
 FROM ltsc2025:vs22.sql22
 
-WORKDIR C:\TEMP
-ENV TEMP=C:\TEMP
-ENV TMP=C:\TEMP
-SHELL ["cmd", "/S", "/C"]
+COPY Software/absuite.ps1 C:\Software\absuite.ps1
 
-# Install MSOLEDBSQL Driver 19
-COPY msoledbsql.msi    C:\TEMP\msoledbsql.msi
-RUN PowerShell -Command {`
-    Write-Output "Install MSOLEDBSql started." `
-    $args=@('/i', 'C:\TEMP\msoledbsql.msi', 'ADDLOCAL=ALL', '/passive', 'IACCEPTMSOLEDBSQLLICENSETERMS=YES', '/norestart'); `
-    $process = Start-Process -FilePath "C:\Windows\System32\msiexec.exe" -ArgumentList $args -PassThru -Wait -NoNewWindow; `
-    $process.WaitForExit(); `
-    Write-Output "Install MSOLEDBSql succeeded." `
-}
+RUN PowerShell -File C:\Software\absuite.ps1
