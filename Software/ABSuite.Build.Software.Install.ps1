@@ -1,5 +1,5 @@
 # $now = Get-Date -Format "yyyyMMdd HHmmss"; Write-Output "3 $now";
-# docker run -it -d --name test-vs22-sql22 --mount=type=bind,source=D:\ABSuite\abs-ci\trunk,target=C:\ABSuite\ABSF\trunk --entrypoint "cmd.exe" ltsc2025:vs22.sql22 cmd /K "echo Hello AB Suite"
+# docker run -it -d --name test-vs22-sql22 --mount=type=bind,source=D:\ABSuite\abs-ci\trunk,target=C:\ABSuite\ABSF\trunk ltsc2025:vs22.sql22 cmd /K "echo Hello AB Suite"
 
 function Install-SSMS {
     Write-Output "Install SSMS started."
@@ -59,7 +59,7 @@ function Install-ComponentEnabler {
     Write-Output "Install Component Enabler started."
     $ce_installer = "Client Environment\\Component Enabler\\Agile Business Suite 10.0 Component Enabler.msi"
     $jdk_bin = "${env:JAVA_HOME}\\bin"
-    @args=@("/i", """$ce_installer""", "/qn", "/norestart", "ADDLOCAL=ALL", "JAVA_HOME=${jdk_bin}", "/l*", "component_enabler.log", "INSTALLDIR=C:\\NGEN_CE")
+    $args=@("/i", """$ce_installer""", "/qn", "/norestart", "ADDLOCAL=ALL", "JAVA_HOME=${jdk_bin}", "/l*", "component_enabler.log", "INSTALLDIR=C:\\NGEN_CE")
     $process = Start-Process -FilePath "C:\Windows\System32\msiexec.exe" -ArgumentList $args -PassThru -Wait -NoNewWindow;
     $process.WaitForExit();
     Write-Output "Install Component Enabler succeeded."
@@ -67,8 +67,11 @@ function Install-ComponentEnabler {
 
 function Install-MSOLEDBDriver19 {
     Write-Output "Install MSOLEDBSql started."
-    $args=@('/i', 'C:\Software\msoledbsql.msi', 'ADDLOCAL=ALL', '/passive', 'IACCEPTMSOLEDBSQLLICENSETERMS=YES', '/norestart');
+    $args=@('/i', 'C:\Software\msoledbsql.msi', 'ADDLOCAL=ALL', '/quiet', 'IACCEPTMSOLEDBSQLLICENSETERMS=YES', '/norestart');
     $process = Start-Process -FilePath "C:\Windows\System32\msiexec.exe" -ArgumentList $args -PassThru -Wait -NoNewWindow;
-    $process.WaitForExit();
+    $process = Get-Process -Name msiexec;
+    if ($process) { $process.WaitForExit(); };
     Write-Output "Install MSOLEDBSql succeeded."
 }
+
+Install-MSOLEDBDriver19

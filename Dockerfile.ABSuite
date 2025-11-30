@@ -1,6 +1,0 @@
-# escape=`
-FROM ltsc2025:vs22.sql22
-
-COPY Software/absuite.ps1 C:\Software\absuite.ps1
-
-RUN PowerShell -File C:\Software\absuite.ps1

@@ -5,4 +5,4 @@ FROM ltsc2025:vs22
 COPY SQL2022/    C:\TEMP\SQL2022\
 RUN C:\TEMP\SQL2022\setup.exe /ConfigurationFile=C:\Software\SQL2022.ini /IAcceptSQLServerLicenseTerms
 
-RUN PowerShell -Command { Remove-Item -Recurse -Force C:\TEMP\SQL2022\*; }
+RUN PowerShell -File C:\Software\CleanUp.ps1

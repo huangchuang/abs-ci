@@ -7,6 +7,6 @@ ENV TMP=C:\TEMP
 
 # Install Visual Studio Build Tools 2022
 COPY Software/ C:\Software\
-RUN Curl.exe -fSL "https://aka.ms/vs/17/release/vs_buildtools.exe" -o vs_buildtools.exe && PowerShell -File C:\Software\VS2022.install.ps1 C:\TEMP\vs_buildtools.exe C:\Software\VS2022.vsconfig "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools"
+RUN PowerShell -File C:\Software\VS2022_BuildTools.install.ps1 C:\Software\VS2022.vsconfig
 
 CMD ["cmd.exe", "/K", "%ProgramFiles(x86)%\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]
