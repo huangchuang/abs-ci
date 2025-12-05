@@ -1,9 +1,9 @@
 param(
+    [string]$edition,
     [string]$config
 )
 
-$edition = "Professional"
-$installPath = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022\$edition"
+$installPath = "${env:ProgramFiles}\Microsoft Visual Studio\2022\$edition"
 $bootstrapperUrl = "https://aka.ms/vs/17/release/vs_${edition}.exe"
 $bootstrapperExe = "${env:TEMP}\vs_${edition}.exe"
 
@@ -17,6 +17,6 @@ $process = Start-Process -FilePath $bootstrapperExe -ArgumentList $arguments -Wa
 $process.WaitForExit()
 
 switch ($process.ExitCode) {
-    0 { Write-Host "✅ Installation completed successfully." -ForegroundColor Green; exit 0; }
-    default {  Write-Error "❌ Installation failed with exit code: $($process.ExitCode)"; exit $process.ExitCode; }
+    0 { Write-Host "Installation completed successfully." -ForegroundColor Green; exit 0; }
+    default {  Write-Error "Installation failed with exit code: $($process.ExitCode)"; exit $process.ExitCode; }
 }

@@ -9,4 +9,4 @@ ENV TMP=C:\TEMP
 COPY Software/ C:\Software\
 RUN PowerShell -File C:\Software\VS2022_BuildTools.install.ps1 C:\Software\VS2022.vsconfig
 
-CMD ["cmd.exe", "/K", "%ProgramFiles(x86)%\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]
+CMD ["cmd.exe", "/K", "%ProgramFiles%\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]

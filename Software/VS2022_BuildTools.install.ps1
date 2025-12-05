@@ -3,7 +3,7 @@ param(
 )
 
 $vs_buildtools_installer = "${env:TEMP}\vs_buildtools.exe";
-$vs_buildtools_installPath = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022\BuildTools"
+$vs_buildtools_installPath = "${env:ProgramFiles}\Microsoft Visual Studio\2022\BuildTools"
 Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/vs_buildtools.exe" -OutFile $vs_buildtools_installer -UseBasicParsing -ErrorAction Stop
 Unblock-File -Path $vs_buildtools_installer;
 

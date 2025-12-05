@@ -74,4 +74,12 @@ function Install-MSOLEDBDriver19 {
     Write-Output "Install MSOLEDBSql succeeded."
 }
 
+function Copy-UnitTestFrameworkDll {
+    $destinaton = "${env:ProgramFiles}\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\PublicAssemblies"
+    if (Test-Path "${destinaton}") {
+        Copy-Item -Recurse -Force -Path "C:\Software\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll" -Destination "${destinaton}"
+    }
+}
+
 Install-MSOLEDBDriver19
+Copy-UnitTestFrameworkDll

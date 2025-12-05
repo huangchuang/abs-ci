@@ -1,7 +1,7 @@
 # Usage
-# .\Dockerfile.Build.ps1 -dockefile .\Dockerfile.VS2022  -image_tag ltsc2025:vs22
-# .\Dockerfile.Build.ps1 -dockefile .\Dockerfile.SQL2022 -image_tag ltsc2025:vs22.sql22
-# .\Dockerfile.Build.ps1 -dockefile .\Dockerfile         -image_tag ltsc2025:vs22.sql22
+# .\Software\Dockerfile.Build.ps1 -dockefile .\Dockerfile.VS2022  -image_tag ltsc2025:vs22
+# .\Software\Dockerfile.Build.ps1 -dockefile .\Dockerfile.SQL2022 -image_tag ltsc2025:vs22.sql22
+# .\Software\Dockerfile.Build.ps1 -dockefile .\Dockerfile         -image_tag ltsc2025:vs22.sql22
 
 param(
     [string]$dockefile,
