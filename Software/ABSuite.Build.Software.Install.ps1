@@ -92,6 +92,18 @@ function Install-MSOLEDBDriver19 {
     Write-Output "Install MSOLEDBSql succeeded."
 }
 
+function Install-NodeJS {
+    Write-Output "Install Node.js started."
+    $version="24.12.0"
+    $url = ('https://nodejs.org/dist/v{0}/node-v{0}-win-x64.zip' -f $version)
+    Write-Output "Downloading Node.js from $url"
+    Invoke-WebRequest -Uri $url -OutFile 'node.zip'
+    Write-Output "Extracting Node.js to C:\Program Files (x86)"
+    Expand-Archive -Path 'node.zip' -DestinationPath 'C:\Program Files (x86)' -Force
+    Remove-Item -Path 'node.zip' -Force
+    Write-Output "Install Node.js succeeded."
+}
+
 function Install-NuGetConfig {
     $destination = "${env:AppData}\NuGet"
     if (-not (Test-Path -Path "${destination}")) {
@@ -114,5 +126,6 @@ Install-ComponentEnabler
 Install-ScriptEncoder
 Install-UnisysOLEDBDriver
 Install-MSOLEDBDriver19
+Install-NodeJS
 Install-NuGetConfig
 Copy-UnitTestFrameworkDll

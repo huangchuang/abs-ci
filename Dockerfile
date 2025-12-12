@@ -5,7 +5,8 @@ WORKDIR C:\TEMP
 ENV TEMP=C:\TEMP
 ENV TMP=C:\TEMP
 ENV JAVA_HOME=C:\OpenJDK
-RUN SETX /M PATH "%PATH%;C:\Program Files\Microsoft Visual Studio\2022\BuildTools\Common7\IDE;C:\ABSuite\ABSF\trunk\Debug\bin64;C:\Program Files\WinZip;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64;C:\OpenJDK\bin"
+ENV ANT_HOME=C:\apache-ant-1.10.15
+RUN SETX /M PATH "%PATH%;C:\Program Files\Microsoft Visual Studio\2022\BuildTools\Common7\IDE;C:\ABSuite\ABSF\trunk\Debug\bin64;C:\Program Files\WinZip;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64;C:\OpenJDK\bin;C:\Program Files (x86)\node-v24.12.0-win-x64;C:\apache-ant-1.10.15\bin;"
 
 COPY Software/ C:\Software\
 

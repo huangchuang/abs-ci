@@ -11,8 +11,18 @@ PS abs-ci> docker run -it -d --isolation=process --name absuite -v C:\ABSuite\ab
     - C:\TEMP>"C:\Program Files\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\VsDevCmd.bat"
 - Switch to the AB Suite source directory
     - C:\TEMP> cd /d C:\ABSuite\ABSF\trunk
-- Build the AB Suite source
-    - C:\ABSuite\absf\trunk> MSBuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Debug /p:Platform=x64 Combined_SystemModeler.slnf
-        - Notes: Remove the container and recreating it by removing the **--isolation=process** option if you see weird "msbuild /t:restore" errors below:
-        - **C:\Program Files\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): error : Could not find a part of the part. [C:\ABSuite\ABSF\trunk\Combined_SystemModeler.slnf]**
-    - C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 Combined_SystemModeler.slnf
+
+### Build Developer (Combined_SystemModeler.slnf)
+- C:\ABSuite\absf\trunk> MSBuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Debug /p:Platform=x64 Combined_SystemModeler.slnf
+- C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 Combined_SystemModeler.slnf
+
+### Build CLR (Combined_CLR.slnf)
+- C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 IdChanger.slnf
+- C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 NGSystem.slnf
+- C:\ABSuite\absf\trunk> PUSHD "Runtime Infrastructure\Utility\Z_Install" && cscript ConfigureBuild.js AppUser App1User@docker@0694 AppAdminUser App1AdminUser@docker@0694 && POPD
+- C:\ABSuite\absf\trunk> MSBuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Debug /p:Platform=x64 Combined_CLR.slnf
+- C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 Combined_CLR.slnf >Combined_CLR.log
+
+## Notes
+Remove the container and recreating it without using the **--isolation=process** option if you see weird "msbuild /t:restore" errors below:
+**C:\Program Files\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): error : Could not find a part of the part. [C:\ABSuite\ABSF\trunk\Combined_SystemModeler.slnf]**
