@@ -1,6 +1,9 @@
 call "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\VsDevCmd.bat" -no_logo
 cd /d C:\ABSuite\ABSF\trunk
 
+PowerShell -Command "Add-LocalGroupMember -Group Administrators -Member AppAdminUser"
+PowerShell -Command "Get-LocalGroupMember -Group Administrators"
+
 fsutil.exe 8dot3name set C: 0
 fsutil.exe 8dot3name query C:
 
