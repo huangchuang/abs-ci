@@ -55,6 +55,12 @@ function CreateUser {
 function CreateUsers {
     CreateUser -username $appUserName -description 'App Application User' -plainPassword $appUserPassword
     CreateUser -username $appAdminUserName -description 'App Admin User' -plainPassword $appAdminUserPassword
+    Add-LocalGroupMember -Group "Administrators" -Member $appAdminUserName
+}
+
+function Enable8dot3Name {
+    & fsutil.exe 8dot3name set C: 0
+    & fsutil.exe 8dot3name query C:
 }
 
 # --- Helpers ---
@@ -223,3 +229,5 @@ AddPrivilegeToAppAdminUser -username $appAdminUserName
 
 # Create the SQL Logins
 CreateSQLLogins
+
+Enable8dot3Name

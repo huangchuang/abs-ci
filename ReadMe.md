@@ -18,6 +18,9 @@ PS abs-ci> docker run -it -d --isolation=process --name absuite -v C:\ABSuite\ab
 
 ### Build CLR (Combined_CLR.slnf)
 - C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 IdChanger.slnf
+- C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 Licensing.slnf
+- C:\ABSuite\absf\trunk> LicensekeyGenerator.exe -eN -v1.0 -pWindows/MCP/OS2200
+- C:\ABSuite\absf\trunk> LicenseKeyInstaller.exe -v1.0
 - C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 NGSystem.slnf
 - C:\ABSuite\absf\trunk> PUSHD "Runtime Infrastructure\Utility\Z_Install" && cscript ConfigureBuild.js AppUser App1User@docker@0694 AppAdminUser App1AdminUser@docker@0694 && POPD
 - C:\ABSuite\absf\trunk> MSBuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Debug /p:Platform=x64 Combined_CLR.slnf
