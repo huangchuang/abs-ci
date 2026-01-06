@@ -17,7 +17,7 @@ POPD
 MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 NGSystem.slnf
 
 PUSHD "Runtime Infrastructure\Utility\Z_Install"
-cscript ConfigureBuild.js AppUser App1User@docker@0694 AppAdminUser App1AdminUser@docker@0694
+cscript ConfigureBuild.js AppUser Absuite@12345678 AppAdminUser Absuite@adm@12345678
 POPD
 
 MSBuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Debug /p:Platform=x64 Combined_CLR.slnf

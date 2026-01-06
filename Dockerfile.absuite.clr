@@ -1,0 +1,8 @@
+# escape=`
+FROM ltsc2025:vs22.sql22
+
+COPY ABSuite/ C:\ABSuite\
+
+RUN cmd.exe /c C:\Software\ABSuite.CLR.bat
+
+CMD cmd.exe "/K" "%ProgramFiles%\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"

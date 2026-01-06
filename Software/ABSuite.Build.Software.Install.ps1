@@ -1,6 +1,3 @@
-# $now = Get-Date -Format "yyyyMMdd HHmmss"; Write-Output "3 $now";
-# docker run -it -d --name test-vs22-sql22 --mount=type=bind,source=D:\ABSuite\abs-ci\trunk,target=C:\ABSuite\ABSF\trunk ltsc2025:vs22.sql22 cmd /K "echo Hello AB Suite"
-
 function Install-SSMS {
     Write-Output "Install SSMS started."
     $process = Start-Process -FilePath "C:\Software\SSMS-Setup-ENU.exe" -ArgumentList @('/i', '/passive', '/norestart') -PassThru -Wait -NoNewWindow;
@@ -78,8 +75,8 @@ function Install-UnisysOLEDBDriver {
     Write-Output "Install Unisys OLEDB started."
     $args=@('/i', """C:\Software\UnisysOLEDB\OLEDBx64.msi""", 'ADDLOCAL=ALL', '/quiet', 'IACCEPTMSOLEDBSQLLICENSETERMS=YES', '/norestart');
     $process = Start-Process -FilePath "C:\Windows\System32\msiexec.exe" -ArgumentList $args -PassThru -Wait -NoNewWindow;
-    $process = Get-Process -Name msiexec;
-    if ($process) { $process.WaitForExit(); };
+    $process = Get-Process -Name msiexec -ErrorAction SilentlyContinue
+    if ($process) { $process.WaitForExit() }
     Write-Output "Install Unisys MSOLEDB succeeded."
 }
 
@@ -87,7 +84,7 @@ function Install-MSOLEDBDriver19 {
     Write-Output "Install MSOLEDBSql started."
     $args=@('/i', """C:\Software\MSOLEDB 19\msoledbsql.msi""", 'ADDLOCAL=ALL', '/quiet', 'IACCEPTMSOLEDBSQLLICENSETERMS=YES', '/norestart');
     $process = Start-Process -FilePath "C:\Windows\System32\msiexec.exe" -ArgumentList $args -PassThru -Wait -NoNewWindow;
-    $process = Get-Process -Name msiexec;
+    $process = Get-Process -Name msiexec -ErrorAction SilentlyContinue
     if ($process) { $process.WaitForExit(); };
     Write-Output "Install MSOLEDBSql succeeded."
 }

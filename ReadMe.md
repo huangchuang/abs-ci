@@ -1,6 +1,7 @@
 # AB Suite Docker Build
 ## Build Image (On Host)
-PS abs-ci> .\Software\Build.ps1 -dockerfile .\Dockerfile         -image_tag ltsc2025:vs22.sql22
+PS abs-ci> .\Software\DockerImage.Build.ps1 -docker_file .\Dockerfile.vs22.sql22         -image_tag ltsc2025:vs22.sql22
+PS abs-ci> .\Software\DockerImage.Build.ps1 -docker_file .\Dockerfile.absuite.clr         -image_tag absuite:clr
 
 ## Run Container (On Host)
 PS abs-ci> docker run -it -d --isolation=process --name absuite -v C:\ABSuite\abs-ci\trunk:C:\ABSuite\ABSF\trunk ltsc2025:vs22.sql22
@@ -22,7 +23,7 @@ PS abs-ci> docker run -it -d --isolation=process --name absuite -v C:\ABSuite\ab
 - C:\ABSuite\absf\trunk> LicensekeyGenerator.exe -eN -v1.0 -pWindows/MCP/OS2200
 - C:\ABSuite\absf\trunk> LicenseKeyInstaller.exe -v1.0
 - C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 NGSystem.slnf
-- C:\ABSuite\absf\trunk> PUSHD "Runtime Infrastructure\Utility\Z_Install" && cscript ConfigureBuild.js AppUser App1User@docker@0694 AppAdminUser App1AdminUser@docker@0694 && POPD
+- C:\ABSuite\absf\trunk> PUSHD "Runtime Infrastructure\Utility\Z_Install" && cscript ConfigureBuild.js AppUser Absuite@12345678 AppAdminUser Absuite@adm@12345678 && POPD
 - C:\ABSuite\absf\trunk> MSBuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Debug /p:Platform=x64 Combined_CLR.slnf
 - C:\ABSuite\absf\trunk> MSBuild /t:build /p:Configuration=Debug /p:Platform=x64 Combined_CLR.slnf >Combined_CLR.log
 

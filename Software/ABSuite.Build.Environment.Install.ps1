@@ -1,7 +1,7 @@
 $appUserName = 'AppUser'
-$appUserPassword = 'App1User@docker@0694'
+$appUserPassword = 'Absuite@12345678'
 $appAdminUserName = 'AppAdminUser'
-$appAdminUserPassword = 'App1AdminUser@docker@0694'
+$appAdminUserPassword = 'Absuite@adm@12345678'
 
 function CreateUser {
     [CmdletBinding()]

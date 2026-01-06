@@ -12,4 +12,4 @@ COPY Software/ C:\Software\
 
 RUN PowerShell -File C:\Software\ABSuite.Setup.ps1
 
-CMD cmd.exe "/K" "%ProgramFiles%\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"
+CMD ["cmd.exe", "/K", "C:\\Program Files\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]
