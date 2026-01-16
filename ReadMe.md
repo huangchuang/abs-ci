@@ -1,4 +1,13 @@
 # AB Suite Docker Build
+## Important Notes
+The latest component enabler installer folder should be present in the "Software" folder. For example,
+Software\Client Environment\Business Integrator
+Software\Client Environment\Client Framework (64 bit)
+Software\Client Environment\Component Enabler
+Software\Client Environment\Presentation Client
+Software\Client Environment\Winformx64
+Software\Client Environment\Client Tools CD Browser.exe
+
 ## Build Image (On Host)
 PS abs-ci> .\Software\DockerImage.Build.ps1 -docker_file .\Dockerfile.ABSuite.Dev         -image_tag absuite:dev
 PS abs-ci> .\Software\DockerImage.Build.ps1 -docker_file .\Dockerfile.ABSuite.Test        -image_tag absuite:test
