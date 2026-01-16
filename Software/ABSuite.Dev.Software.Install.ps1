@@ -92,9 +92,7 @@ function Install-ScriptEncoder {
 
 function Install-TortoiseSVN {
     Write-Output "Install TortoiseSVN - started."
-    $msi = "TortoiseSVN-1.14.9.29743-x64-svn-1.14.5.msi"
-    $url = "https://sourceforge.net/projects/tortoisesvn/files/1.14.9/Application/$msi"
-    Invoke-WebRequest -Uri $url -OutFile "C:\Software\$msi"
+    $msi = "C:\Software\TortoiseSVN-1.14.9.29743-x64-svn-1.14.5.msi"
     $arguments=@("/i", "$msi", "ADDLOCAL=ALL", "/passive", "/norestart", "/log", "TortoiseSVN_Install.log")
     $process = Start-Process -FilePath "C:\Windows\System32\msiexec.exe" -ArgumentList $arguments -PassThru -Wait -NoNewWindow
     $process = Get-Process -Name msiexec -ErrorAction SilentlyContinue
