@@ -1,0 +1,8 @@
+# escape=`
+FROM absuite:dev
+
+COPY Software/ C:\Software\
+
+RUN PowerShell -File C:\Software\ABSuite.Test.ps1
+
+CMD ["cmd.exe", "/K", "C:\\Program Files\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]

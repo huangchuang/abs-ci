@@ -1,0 +1,12 @@
+# escape=`
+FROM absuite:dev
+
+WORKDIR C:\TEMP
+ENV TEMP=C:\TEMP
+ENV TMP=C:\TEMP
+
+COPY Software/ C:\Software\
+
+RUN powershell -File C:\Software\ABSuite.Register.via.Install.ps1
+
+CMD ["cmd.exe", "/K", "C:\\Program Files\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]

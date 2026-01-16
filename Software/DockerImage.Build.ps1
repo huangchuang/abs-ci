@@ -1,7 +1,5 @@
 # Usage
-# .\Software\DockerImage.Build.ps1 -docker_file .\Dockerfile.VS2022  -image_tag ltsc2025:vs22
-# .\Software\DockerImage.Build.ps1 -docker_file .\Dockerfile.SQL2022 -image_tag ltsc2025:vs22.sql22
-# .\Software\DockerImage.Build.ps1 -docker_file .\Dockerfile         -image_tag ltsc2025:vs22.sql22
+# .\Software\DockerImage.Build.ps1 -docker_file .\Dockerfile.ABSuite.Dev -image_tag absuite:dev
 
 param(
     [string]$docker_file,
@@ -9,6 +7,7 @@ param(
 )
 
 $attempt=0
+docker image rm "${image_tag}" -f >$null
 docker image inspect "${image_tag}" >$null
 while ($LASTEXITCODE -ne 0) {
     $now = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -17,7 +16,7 @@ while ($LASTEXITCODE -ne 0) {
     docker system prune -f
     docker build -t "${image_tag}" -m 16GB --no-cache -f $docker_file .
 
-    sleep -second 5
+    Start-Sleep -Seconds 5
     docker image inspect "${image_tag}" >$null
     $now = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     Write-Host "Round ${attempt} ended - ${now}"

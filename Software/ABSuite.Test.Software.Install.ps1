@@ -1,11 +1,3 @@
-function Install-Fonts {}
-
-function Install-Diffutils {
-    # This might be optional as grep.exe and diff.exe are also present in the $trunk\${config}\bin64 folder
-}
-
-function Install-OpenJDK {}
-
 function Install-ApacheAnt {
     Write-Output "Install Apache Ant started."
     $version="1.10.15"
@@ -17,7 +9,5 @@ function Install-ApacheAnt {
     Remove-Item -Path 'apache-ant.zip' -Force
     Write-Output "Install Apache Ant succeeded."
 }
-
-function Install-NodeJS {}
 
 Install-ApacheAnt
