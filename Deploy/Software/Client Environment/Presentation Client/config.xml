@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+  <modifySystemDetails>true</modifySystemDetails>
+  <disableConnectionModeButtons>false</disableConnectionModeButtons>
+  <downloadDir>c:\NGEN_CE\classes</downloadDir>
+</configuration>
+

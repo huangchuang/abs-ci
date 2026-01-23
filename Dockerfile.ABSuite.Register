@@ -1,0 +1,12 @@
+# escape=`
+FROM absuite:dev
+
+WORKDIR C:\TEMP
+ENV TEMP=C:\TEMP
+ENV TMP=C:\TEMP
+
+COPY Deploy/ C:\Deploy\
+
+RUN powershell -File C:\Deploy\Script\ABSuite.Register.via.Install.ps1 -DeployFolder "C:\Deploy"
+
+CMD ["cmd.exe", "/K", "C:\\Program Files\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]

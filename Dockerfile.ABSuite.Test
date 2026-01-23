@@ -1,0 +1,8 @@
+# escape=`
+FROM absuite:dev
+
+COPY Deploy/ C:\Deploy\
+
+RUN PowerShell -File C:\Deploy\Script\ABSuite.Test.ps1 -DeployFolder "C:\Deploy"
+
+CMD ["cmd.exe", "/K", "C:\\Program Files\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]
